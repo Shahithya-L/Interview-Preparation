@@ -1,0 +1,28 @@
+static ArrayList<Integer> subarraySum(int[] arr, int n, int s) 
+    {   int target = s;
+        int windowsum =0;
+        int high = 0;
+        ArrayList<Integer> al = new ArrayList<>();
+        
+        for(int low=0;low<arr.length;low++)
+        {
+            while(windowsum < target && high < arr.length)
+            {
+                windowsum += arr[high];
+                high++;
+            }
+            if(windowsum == target)
+            {   
+                al.add(low+1);
+                al.add(high);
+                return al;
+            }
+            
+            windowsum -= arr[low];
+        }
+        
+        al.add(-1);
+        return al;
+        
+        
+    }

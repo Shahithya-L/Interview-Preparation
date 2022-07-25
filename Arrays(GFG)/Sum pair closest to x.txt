@@ -1,0 +1,23 @@
+class Solution {
+    int[] sumClosest(int[] arr, int x) {
+        int[] a=new int[2];
+        int l=0,r=arr.length-1,diff=Integer.MAX_VALUE;
+        while(l<r){
+            if(Math.abs(arr[l]+arr[r]-x) < diff){
+                a[0]=arr[l];
+                a[1]=arr[r];
+                diff=Math.abs(arr[l]+arr[r]-x);
+            }
+            if(arr[l]+arr[r]>x){
+                r--;
+            }
+            else{
+                l++;
+            }
+        }
+        return a;
+    }
+}
+
+
+

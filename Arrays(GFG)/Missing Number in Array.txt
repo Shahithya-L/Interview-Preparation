@@ -1,0 +1,10 @@
+class Solution {
+    int MissingNumber(int array[], int n) {
+        int len=n;
+        for(int i=0;i<array.length;i++){
+            len=len^(i+1);
+            len=len^array[i];
+        }
+        return len;
+    }
+}

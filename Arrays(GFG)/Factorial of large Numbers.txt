@@ -1,0 +1,20 @@
+class Solution {
+    static ArrayList<Integer> factorial(int N){
+       
+       java.math.BigInteger b = new java.math.BigInteger("1");
+       
+       for(int i=1;i<=N;i++)
+       {
+           b = b.multiply(java.math.BigInteger.valueOf(i));
+       }
+       
+       String str = b.toString();
+       ArrayList<Integer> al = new ArrayList<>();
+       
+       for(int i=0;i<str.length();i++)
+       {
+           al.add(str.charAt(i)-'0');
+       }
+        return al;
+    }
+}

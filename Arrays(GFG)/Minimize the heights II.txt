@@ -1,0 +1,17 @@
+int getMinDiff(int[] arr, int n, int k) {
+       
+       Arrays.sort(arr);
+       int answer=arr[n-1]-arr[0];
+       int small=arr[0]+k;
+       int large=arr[n-1]-k;
+       int minimum,maximum;
+       for(int i=0;i<n-1;i++)
+       {
+           minimum=Math.min(small,arr[i+1]-k);
+           maximum=Math.max(large,arr[i]+k);
+           if(minimum<0) continue;
+           answer=Math.min(answer,maximum-minimum);
+       }
+       return answer;
+    
+    }

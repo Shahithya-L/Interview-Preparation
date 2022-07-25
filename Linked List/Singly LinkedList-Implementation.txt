@@ -1,0 +1,318 @@
+import java.util.*;
+public class Main{
+    private static class Node{
+        int data;
+        Node next;
+    }
+    private Node head;
+    public void insertLast(int data){
+        Node new_node=new Node();
+        new_node.data=data;
+        new_node.next=null;
+        if(head==null){
+            head=new_node;
+        }
+        else{
+            Node temp=head;
+            while(temp.next!=null){
+                temp=temp.next;
+            }
+            temp.next=new_node;
+        }
+    }
+    public void insertFirst(int data){
+        Node new_node=new Node();
+        new_node.data=data;
+        new_node.next=null;
+        new_node.next=head;
+        head=new_node;
+    }
+    public void insertAt(int pos,int data){
+        if(pos==0){
+            insertFirst(data);
+        }
+        else{
+            Node new_node=new Node();
+            new_node.data=data;
+            new_node.next=null;
+            Node temp=head;
+            for(int i=0;i<pos-1;i++){
+                temp=temp.next;
+            }
+            new_node.next=temp.next;
+            temp.next=new_node;
+        }
+    }
+    public void insertSort(int data){
+        Node new_node=new Node();
+        new_node.data=data;
+        new_node.next=null;
+        if(head==null || head.data>new_node.data){
+            new_node.next=head;
+            head=new_node;
+        }
+        else{
+            Node temp=head;
+            while(temp.next!=null && temp.next.data < new_node.data){
+                temp=temp.next;
+            }
+            new_node.next=temp.next;
+            temp.next=new_node;
+        }
+    }
+    public Node deleteAt(int pos){
+        if(head==null) return head;
+        if(head.next==null){
+            Node temp=head;
+            head=head.next;
+            return temp;
+        }
+        Node temp=head;
+        else{
+            for(int i=0;i<pos-1;i++){
+                temp=temp.next;
+            }
+            Node temp2=temp.next;
+            temp.next=temp2.next;
+            temp2.next=null;
+            return temp2;
+        }
+    }
+    public Node deleteLast(){
+        if(head==null) return head;
+        if(head.next==null){
+            Node temp=head;
+            head=head.next;
+            return temp;
+        }
+        Node curr=head;
+        Node prev=null;
+        while(curr.next!=null){
+            prev=curr;
+            curr=curr.next;
+        }
+        prev.next=null;
+        return curr;
+    }
+    public void deleteNode(int data){
+        if(head==null) {
+            System.out.print("No element found!!");
+        }
+        Node curr=head;
+        Node prev=null;
+        while(curr.next!=null){
+            if(curr.data==data){
+                prev.next=curr.next;
+                curr=curr.next;
+            }
+            else{
+                prev=curr;
+                curr=curr.next;
+            }
+        }
+    }
+    public void show(){
+        Node temp=head;
+        while(temp!=null){
+            System.out.print(temp.data+" --> ");
+            temp=temp.next;
+        }
+         System.out.print("null");
+    }
+    public int lengthList(){
+        int i=0;
+        Node temp=head;
+        while(temp!=null){
+            temp=temp.next;
+            i++;
+        }
+        return i;
+    }
+    public int isFind(int data){
+        if (head==null) return -1;
+        Node temp=head;
+        int i=0;
+        while(temp!=null){
+            if(temp.data==data){
+                return i;
+            }
+            temp=temp.next;
+            i++;
+        }
+        return -1;
+    }
+    public void reverse(){
+        if(head==null) {
+            System.out.print("No element found!!");
+        }
+        Node prev=null;
+        Node curr=head;
+        Node next=null;
+        while(curr!=null){
+            next=curr.next;
+            curr.next=prev;
+            prev=curr;
+            curr=next;
+        }
+        head=prev;
+    }
+    public Node reverseKnode(Node head,int k){
+        if(head==null) {
+            return head;
+        }
+        Node prev=null;
+        Node curr=head;
+        Node next=null;
+        int i=0;
+        while(i<k && curr!=null){
+            next=curr.next;
+            curr.next=prev;
+            prev=curr;
+            curr=next;
+            i++;
+        }
+        if(next!=null){
+            head.next=reverseKnode(next,k);
+        }
+        return prev;
+    }
+    public boolean containsLoop(){
+        Node slow=head;
+        Node fast=head;
+        while(slow!=null && fast!=null && fast.next!=null){
+            slow=slow.next;
+            fast=fast.next.next;
+            if(slow==fast){
+                return true;
+            }
+        }
+        return false;
+    }
+    public void detremoveLoop(){
+        Node slow=head;
+        Node fast=head;
+        while(slow!=null && fast!=null && fast.next!=null){
+            slow=slow.next;
+            fast=fast.next.next;
+            if(slow==fast){
+                slow=head;
+                while(slow.next!=fast.next){
+                    slow=slow.next;
+                    fast=fast.next;
+                }
+                fast.next=null;
+            }
+        }
+    }
+    public Node union(Node h1,Node h2){
+        HashSet<Integer> hset1=new HashSet<>();
+        while(h1!=null){
+            hset1.add(h1.data);
+            h1=h1.next;
+        }
+        while(h2!=null){
+            hset1.add(h2.data);
+            h2=h2.next;
+        }
+        for(Integer i:hset1){
+            insertLast(i);
+        }
+        return head;
+    }
+    public Node intersect(Node h1,Node h2){
+        HashSet<Integer> hset2=new HashSet<>();
+        while(h1!=null){
+            hset2.add(h1.data);
+            h1=h1.next;
+        }
+        while(h2!=null){
+            if(hset2.contains(h2.data)){
+                insertLast(h2.data);
+            }
+            h2=h2.next;
+        }
+        return head;
+    }
+    public void midnode(){
+        Node slow=head;
+        Node fast=head;
+        while(fast!=null && fast.next!=null){
+            slow=slow.next;
+            fast=fast.next.next;
+        }
+        System.out.println("Middle node is: "+slow.data);
+    }
+    public void lastnthnode(int k){
+        if(head==null) {
+            System.out.print("No element found!!");
+        }
+        if(n<=0){
+		    System.out.println("Invalid number");
+		}
+        int i=0;
+        Node mainptr=head;
+        Node refptr=head;
+        while(i<k){
+            if(refptr==null){
+                System.out.println("No of nodes is less");
+            }
+            refptr=refptr.next;
+            i++;
+        }
+        while(refptr!=null){
+            mainptr=mainptr.next;
+            refptr=refptr.next;
+        }
+        System.out.println("Last nth node is: "+mainptr.data);
+    }
+    public static void main(String args[]){
+        Main list=new Main();
+        Main l=new Main();
+        Main ulist=new Main();
+        Main ilist=new Main();
+        list.insertAt(0,87);
+        list.insertFirst(45);
+        list.insertLast(67);
+        list.insertFirst(5);
+        list.insertLast(19);
+        list.insertAt(5,23);
+        list.show();
+        System.out.println();
+        System.out.println("Length of the list is: "+list.lengthList());
+        System.out.println("Reversal of the list is: ");
+        list.reverse();
+        list.show();
+        System.out.println();
+        System.out.println("Element found in the list are not: "+list.isFind(19));
+        l.insertSort(65);
+        l.insertSort(80);
+        l.insertSort(67);
+        l.insertSort(6);
+        l.insertSort(56);
+        l.insertSort(12);
+        l.insertSort(31);
+        System.out.println("Second list");
+        l.show();
+        System.out.println();
+        System.out.println("Reverse K Nodes of the list: ");
+        l.head=l.reverseKnode(l.head,3);
+        l.show();
+        l.head.next.next.next.next.next.next.next=l.head.next.next;
+        System.out.println();
+        System.out.println("Contains loop "+l.containsLoop());
+        System.out.println("Detect and remove loop ");
+        l.detremoveLoop();
+        l.show();
+        System.out.println();
+        ulist.head=ulist.union(list.head,l.head);
+        System.out.println("Union");
+        ulist.show();
+        ilist.head=ilist.intersect(list.head,l.head);
+        System.out.println();
+        System.out.println("Intersection");
+        ilist.show();
+        System.out.println();
+        ulist.midnode();
+        ulist.lastnthnode(2);
+    }
+}
